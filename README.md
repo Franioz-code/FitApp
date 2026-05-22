@@ -1,4 +1,4 @@
-# [App Name] — AI Fitness & Nutrition Coach
+# FIT — AI Fitness & Nutrition Coach
 
 > A mobile app that turns daily food and training logs into adaptive, science-grounded coaching — built around an AI layer engineered to be trustworthy, not just talkative.
 
@@ -8,7 +8,7 @@
 
 ## Overview
 
-[App Name] is a cross-platform iOS/Android app for tracking nutrition and strength training with an AI coach that adapts to the user over time. The focus of the project — and of this write-up — is the **engineering discipline behind the AI and data layers**: preventing hallucinations, staying useful offline, and keeping animations at 60fps.
+FIT is a cross-platform iOS/Android app for tracking nutrition and strength training with an AI coach that adapts to the user over time. The focus of the project — and of this write-up — is the **engineering discipline behind the AI and data layers**: preventing hallucinations, staying useful offline, and keeping animations at 60fps.
 
 ---
 
