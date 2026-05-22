@@ -8,7 +8,21 @@
 
 ## Overview
 
-FIT is a cross-platform iOS/Android app for tracking nutrition and strength training with an AI coach that adapts to the user over time. The focus of the project — and of this write-up — is the **engineering discipline behind the AI and data layers**: preventing hallucinations, staying useful offline, and keeping animations at 60fps.
+FIT is a cross-platform iOS/Android app for tracking nutrition and strength training with an AI coach that adapts to the user over time. The focus of the project — and of this write-up — is the **engineering discipline behind the AI and data layers**: preventing hallucinations, staying useful offline, and keeping the whole experience at 60fps.
+
+---
+
+## Notable Features
+
+A few things that make it more than a CRUD tracker:
+
+- 🧠 **AI coach that catches contradictions** — surfaces short, validated insights (e.g. flagging when the weight trend disagrees with the stated goal) instead of generic tips.
+- 🔬 **Per-muscle volume heatmap** — visualizes training load per muscle group, computed from logged sets over a rolling window.
+- 🧬 **Long-term AI memory** — the coach remembers durable facts and past context via semantic search, so guidance stays consistent across weeks.
+- 🪄 **Bespoke 60fps motion system** — confetti, fluid navigation, and spring-driven controls built directly on the GPU layer, with no off-the-shelf animation library.
+- 📅 **Adaptive periodization** — phase-aware planning (cuts, refeeds, deloads) rather than a single static target.
+- 📷 **Fast logging** — barcode scanning and AI photo estimation, with structured nutrition databases as the source of truth.
+- 📶 **Fully offline-capable** — log anywhere; everything reconciles on reconnect.
 
 ---
 
@@ -53,7 +67,7 @@ AI nutrition estimates are wrapped in several layers designed to fail safe rathe
 
 - **Fallback cascade** — food estimation prefers structured, authoritative nutrition databases and only falls back to model inference when no reliable match exists, so the most accurate source available is always used first.
 - **Quantified confidence** — every estimate carries an explicit numeric confidence, surfaced to the user and used downstream to decide how assertive the coaching should be.
-- **Macro consistency validation** — a deterministic sanity layer checks each AI output for internal coherence (e.g. that reported macronutrients are physically consistent with the stated energy value) and flags or rejects implausible results before they ever reach the user. This catches a large class of model hallucinations without trusting the model to police itself.
+- **Macro consistency validation** — a deterministic sanity layer checks each AI output for internal coherence (e.g. that reported macronutrients are physically consistent with the stated energy value) and flags or rejects implausible results before they reach the user. This catches a large class of model hallucinations without trusting the model to police itself.
 
 ### Three-layer AI memory
 Coaching feels continuous without resending the full history on every call:
@@ -81,7 +95,7 @@ The coaching layer is engineered for honest, non-sycophantic feedback and includ
 - **CI/CD**: two GitHub Actions pipelines plus pre-commit gates that block any commit failing type-checks, formatting, or tests.
 - **16 versioned, RLS-secured Postgres migrations** — every table protected at the database level.
 - **~96 reusable UI components** across a file-routed app, with a consistent design system.
-- **Bespoke motion system** built directly on Reanimated + Skia (no off-the-shelf animation kit): GPU-particle celebrations, a fluid traveling navigation indicator, spring-driven segmented controls and page indicators, and a procedural shader experiment — all running on the UI thread for 60fps.
+- **Bespoke motion system** built directly on Reanimated + Skia: GPU-particle celebrations, a fluid traveling navigation indicator, and spring-driven segmented controls and page indicators — all running on the UI thread for 60fps.
 
 ---
 
@@ -96,14 +110,36 @@ The coaching layer is engineered for honest, non-sycophantic feedback and includ
 
 ## Screenshots
 
-![Today dashboard — macro ring, weekly view, contextual coaching](docs/screenshots/01-today-dashboard.png)
-*Daily dashboard: macro progress, training week, and a focused navigation.*
-
-![Body-composition trend with AI-generated insight](docs/screenshots/02-trends-ai-insight.png)
-*Weight trend with an AI insight that's validated before it's shown.*
-
-![Muscle-volume heatmap from logged training](docs/screenshots/03-muscle-heatmap.png)
-*Per-muscle volume heatmap computed from logged sets over a rolling window.*
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/01-dashboard.png" width="220" alt="Daily dashboard" /><br/>
+      <sub><b>Daily dashboard</b><br/>macros, training week, focused nav</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/02-ai-insight.png" width="220" alt="AI insight + trend" /><br/>
+      <sub><b>Trends + AI insight</b><br/>validated before it's shown</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/03-muscle-heatmap.png" width="220" alt="Muscle-volume heatmap" /><br/>
+      <sub><b>Muscle heatmap</b><br/>volume per muscle from logged sets</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/04-animation-system.png" width="220" alt="Custom animation system" /><br/>
+      <sub><b>Custom motion lab</b><br/>bespoke 60fps Skia/Reanimated effects</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/05-training-plan.png" width="220" alt="Adaptive training plan" /><br/>
+      <sub><b>Adaptive training plan</b><br/>periodized week + AI rest-day guidance</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/screenshots/06-session-calendar.png" width="220" alt="Session calendar" /><br/>
+      <sub><b>Session calendar</b><br/>done / planned / skipped at a glance</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
